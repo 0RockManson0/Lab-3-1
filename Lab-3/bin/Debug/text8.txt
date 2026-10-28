@@ -1,0 +1,6 @@
+Привет мир
+Как дела?
+Это тест без знаков
+Тут есть запятая, и точка.
+Hello world without punctuation
+Another line with no marks

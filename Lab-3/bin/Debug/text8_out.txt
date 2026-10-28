@@ -1,0 +1,4 @@
+Привет мир
+Это тест без знаков
+Hello world without punctuation
+Another line with no marks
