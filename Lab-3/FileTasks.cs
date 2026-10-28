@@ -82,7 +82,7 @@ internal static class FileTasks
             }
         }
     }
-    
+
     private static void FillBinaryRandom(
         string path, int count)
     {
@@ -193,7 +193,7 @@ internal static class FileTasks
 
         ReadBinaryFile(fullPathOut);
     }
-    
+
     private static void FillToysRandom(
         string path, int count)
     {
@@ -232,7 +232,7 @@ internal static class FileTasks
         for (int i = 0; i < count; i++)
         {
             Console.WriteLine(
-                $"\n--- Игрушка {i + 1} ---");
+                $"\nИгрушка {i + 1}:");
             Toy t = new Toy();
             t.Name = ConsoleHelper.ReadString(
                 "Название: ");
@@ -342,7 +342,7 @@ internal static class FileTasks
                 "для детей 2-3 лет не найдено.");
         }
     }
-    
+
     private static void FillText6Random(
         string path, int count)
     {
@@ -426,7 +426,7 @@ internal static class FileTasks
             $"Сумма элементов, оканчивающихся " +
             $"на {digit}: {sum}");
     }
-    
+
     private static void FillText7Random(
         string path, int rows, int cols)
     {
@@ -460,7 +460,7 @@ internal static class FileTasks
             {
                 string line = "";
                 Console.WriteLine(
-                    $"\nСтрока {i + 1}");
+                    $"\nСтрока {i + 1}:");
                 for (int j = 0; j < cols; j++)
                 {
                     int num = ConsoleHelper.ReadInt(
@@ -545,6 +545,7 @@ internal static class FileTasks
         Console.WriteLine(
             $"Разность: {firstElement - minElement}");
     }
+
     private static void FillText8Random(
         string path)
     {

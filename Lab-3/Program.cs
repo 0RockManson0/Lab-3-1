@@ -48,7 +48,7 @@ internal class Program
 
         Console.WriteLine(
             "\nПервый массив " +
-            "(ввод по диагоналям)");
+            "(ввод по диагоналям):");
         MatrixClass matrix1 =
             new MatrixClass(n, m);
         Console.WriteLine("\nПервый массив:");
@@ -56,15 +56,14 @@ internal class Program
 
         Console.WriteLine(
             "\nВторой массив " +
-            "(убывающие строки)");
+            "(убывающие строки):");
         MatrixClass matrix2 =
             new MatrixClass(n);
         Console.WriteLine("\nВторой массив:");
         Console.WriteLine(matrix2);
 
         Console.WriteLine(
-            "\nТретий массив " +
-            "(спираль)");
+            "\nТретий массив (спираль):");
         MatrixClass matrix3 =
             new MatrixClass(n, "spiral");
         Console.WriteLine("\nТретий массив:");

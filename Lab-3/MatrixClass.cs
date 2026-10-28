@@ -2,11 +2,9 @@
 
 internal class MatrixClass
 {
-
     private int[,] _data;
     private int _rows = 0;
     private int _cols = 0;
-
 
     public MatrixClass(int n, int m)
     {
@@ -30,7 +28,7 @@ internal class MatrixClass
             }
         }
     }
-    
+
     public MatrixClass(int n)
     {
         _rows = n;
@@ -65,7 +63,6 @@ internal class MatrixClass
         }
     }
 
-
     public MatrixClass(int n, string mode)
     {
         _rows = n;
@@ -80,35 +77,38 @@ internal class MatrixClass
 
         while (top <= bottom && left <= right)
         {
-            for (int i = left; i <= right; i++)
-            {
-                _data[top, i] = num++;
-            }
-            top++;
             for (int i = top; i <= bottom; i++)
             {
-                _data[i, right] = num++;
+                _data[i, left] = num++;
             }
-            right--;
-            if (top <= bottom)
+            left++;
+
+            for (int i = left; i <= right; i++)
             {
-                for (int i = right; i >= left; i--)
-                {
-                    _data[bottom, i] = num++;
-                }
-                bottom--;
+                _data[bottom, i] = num++;
             }
+            bottom--;
+
             if (left <= right)
             {
                 for (int i = bottom; i >= top; i--)
                 {
-                    _data[i, left] = num++;
+                    _data[i, right] = num++;
                 }
-                left++;
+                right--;
+            }
+
+            if (top <= bottom)
+            {
+                for (int i = right; i >= left; i--)
+                {
+                    _data[top, i] = num++;
+                }
+                top++;
             }
         }
     }
-    
+
     public MatrixClass(int rows, int cols,
                        bool manual)
     {
@@ -129,7 +129,7 @@ internal class MatrixClass
             }
         }
     }
-    
+
     public int Rows
     {
         get { return _rows; }
@@ -139,7 +139,7 @@ internal class MatrixClass
     {
         get { return _cols; }
     }
-    
+
     public void AnalyzeVoting()
     {
         int sameCount = 0;
@@ -194,7 +194,7 @@ internal class MatrixClass
                 "Количество депутатов равно.");
         }
     }
-    
+
     public static MatrixClass operator ~(
         MatrixClass m)
     {
