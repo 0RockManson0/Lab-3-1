@@ -1,9 +1,13 @@
 using System;
+using System.Text;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
+        Console.OutputEncoding = Encoding.UTF8;
+        Console.InputEncoding = Encoding.UTF8;
+
         int choice = 0;
         while (true)
         {
@@ -12,8 +16,8 @@ internal class Program
             Console.WriteLine(
                 "Выберите задание (1-8) " +
                 "или 0 для выхода:");
-            choice = ConsoleHelper.ReadInt(
-                "Ваш выбор: ");
+            Console.Write("Ваш выбор: ");
+            choice = ConsoleHelper.ReadInt("");
 
             switch (choice)
             {
