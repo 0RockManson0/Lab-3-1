@@ -225,7 +225,3 @@
 </p>
 
 ---
-
-## Ссылка на репозиторий
-
-[GitHub: Lab-3](https://github.com/0RockManson0/Lab-3)
