@@ -2,14 +2,11 @@
 
 internal class MatrixClass
 {
+
     private int[,] _data;
-    private int _rows = 0;
-    private int _cols = 0;
-    
+
     public MatrixClass(int n, int m)
     {
-        _rows = n;
-        _cols = m;
         _data = new int[n, m];
         
         int diff = 0;
@@ -31,11 +28,10 @@ internal class MatrixClass
             }
         }
     }
-    
+
+
     public MatrixClass(int n)
     {
-        _rows = n;
-        _cols = n;
         _data = new int[n, n];
         Random rnd = new Random();
         
@@ -74,11 +70,10 @@ internal class MatrixClass
             }
         }
     }
-    
+
+
     public MatrixClass(int n, string mode)
     {
-        _rows = n;
-        _cols = n;
         _data = new int[n, n];
 
         int top = 0;
@@ -125,8 +120,6 @@ internal class MatrixClass
 
     public MatrixClass(int rows, int cols, bool manual)
     {
-        _rows = rows;
-        _cols = cols;
         _data = new int[rows, cols];
         
         int i = 0;
@@ -145,16 +138,17 @@ internal class MatrixClass
         }
     }
 
+
     public int Rows
     {
-        get { return _rows; }
+        get { return _data.GetLength(0); }
     }
 
     public int Cols
     {
-        get { return _cols; }
+        get { return _data.GetLength(1); }
     }
-
+    
     public void AnalyzeVoting()
     {
         int sameCount = 0;
@@ -165,7 +159,7 @@ internal class MatrixClass
         string vote1 = "";
         string vote2 = "";
 
-        for (i = 0; i < _rows; i++)
+        for (i = 0; i < _data.GetLength(0); i++)
         {
             v1 = _data[i, 0];
             v2 = _data[i, 1];
@@ -212,21 +206,19 @@ internal class MatrixClass
                 "Количество депутатов равно.");
         }
     }
-
     public static MatrixClass operator ~(MatrixClass m)
     {
         MatrixClass result = new MatrixClass(
-            m._cols, m._rows, false);
-        result._rows = m._cols;
-        result._cols = m._rows;
-        result._data = new int[m._cols, m._rows];
+            m._data.GetLength(1), 
+            m._data.GetLength(0), 
+            false);
         
         int i = 0;
         int j = 0;
 
-        for (i = 0; i < m._rows; i++)
+        for (i = 0; i < m._data.GetLength(0); i++)
         {
-            for (j = 0; j < m._cols; j++)
+            for (j = 0; j < m._data.GetLength(1); j++)
             {
                 result._data[j, i] = m._data[i, j];
             }
@@ -238,14 +230,16 @@ internal class MatrixClass
         MatrixClass a, MatrixClass b)
     {
         MatrixClass result = new MatrixClass(
-            a._rows, a._cols, false);
+            a._data.GetLength(0), 
+            a._data.GetLength(1), 
+            false);
         
         int i = 0;
         int j = 0;
         
-        for (i = 0; i < a._rows; i++)
+        for (i = 0; i < a._data.GetLength(0); i++)
         {
-            for (j = 0; j < a._cols; j++)
+            for (j = 0; j < a._data.GetLength(1); j++)
             {
                 result._data[i, j] = 
                     a._data[i, j] + b._data[i, j];
@@ -258,14 +252,16 @@ internal class MatrixClass
         MatrixClass a, MatrixClass b)
     {
         MatrixClass result = new MatrixClass(
-            a._rows, a._cols, false);
+            a._data.GetLength(0), 
+            a._data.GetLength(1), 
+            false);
         
         int i = 0;
         int j = 0;
         
-        for (i = 0; i < a._rows; i++)
+        for (i = 0; i < a._data.GetLength(0); i++)
         {
-            for (j = 0; j < a._cols; j++)
+            for (j = 0; j < a._data.GetLength(1); j++)
             {
                 result._data[i, j] = 
                     a._data[i, j] - b._data[i, j];
@@ -278,14 +274,16 @@ internal class MatrixClass
         MatrixClass m, int scalar)
     {
         MatrixClass result = new MatrixClass(
-            m._rows, m._cols, false);
+            m._data.GetLength(0), 
+            m._data.GetLength(1), 
+            false);
         
         int i = 0;
         int j = 0;
         
-        for (i = 0; i < m._rows; i++)
+        for (i = 0; i < m._data.GetLength(0); i++)
         {
-            for (j = 0; j < m._cols; j++)
+            for (j = 0; j < m._data.GetLength(1); j++)
             {
                 result._data[i, j] = 
                     m._data[i, j] * scalar;
@@ -306,9 +304,9 @@ internal class MatrixClass
         int i = 0;
         int j = 0;
         
-        for (i = 0; i < _rows; i++)
+        for (i = 0; i < _data.GetLength(0); i++)
         {
-            for (j = 0; j < _cols; j++)
+            for (j = 0; j < _data.GetLength(1); j++)
             {
                 result += _data[i, j]
                     .ToString().PadLeft(6);
