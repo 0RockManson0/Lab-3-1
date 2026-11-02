@@ -16,70 +16,84 @@ internal static class FileTasks
     private static int ChooseMode()
     {
         int mode = 0;
-        while (true)
+        bool isValid = false;
+        
+        while (!isValid)
         {
-            Console.WriteLine(
-                "\nВыберите режим:");
-            Console.WriteLine(
-                "1 - Случайная генерация");
-            Console.WriteLine(
-                "2 - Ручной ввод");
-            mode = ConsoleHelper.ReadInt(
-                "Ваш выбор: ");
+            Console.WriteLine("\nВыберите режим:");
+            Console.WriteLine("1 - Случайная генерация");
+            Console.WriteLine("2 - Ручной ввод");
+            mode = ConsoleHelper.ReadInt("Ваш выбор: ");
 
             if (mode == 1 || mode == 2)
             {
-                return mode;
+                isValid = true;
             }
-            Console.WriteLine(
-                "Некорректный ввод. " +
-                "Введите 1 или 2.");
+            else
+            {
+                Console.WriteLine(
+                    "Некорректный ввод. " +
+                    "Введите 1 или 2.");
+            }
         }
+        return mode;
     }
 
-    private static void ReadBinaryFile(
-        string path)
+    private static void ReadBinaryFile(string path)
     {
         Console.WriteLine(
             $"\nСодержимое файла {path}:");
+        
         if (!File.Exists(path))
         {
             Console.WriteLine("Файл не найден.");
             return;
         }
-        using (BinaryReader reader =
-            new BinaryReader(
-                File.Open(path, FileMode.Open)))
+        
+        BinaryReader reader = new BinaryReader(
+            File.Open(path, FileMode.Open));
+        int num = 0;
+        
+        try
         {
-            while (reader.BaseStream.Position <
+            while (reader.BaseStream.Position < 
                    reader.BaseStream.Length)
             {
-                int num = reader.ReadInt32();
+                num = reader.ReadInt32();
                 Console.Write(num + " ");
             }
+        }
+        finally
+        {
+            reader.Close();
         }
         Console.WriteLine();
     }
 
-    private static void ReadTextFile(
-        string path)
+    private static void ReadTextFile(string path)
     {
         Console.WriteLine(
             $"\nСодержимое файла {path}:");
+        
         if (!File.Exists(path))
         {
             Console.WriteLine("Файл не найден.");
             return;
         }
-        using (StreamReader reader =
-            new StreamReader(path))
+        
+        StreamReader reader = new StreamReader(path);
+        string line = "";
+        
+        try
         {
-            string line = "";
-            while ((line = reader.ReadLine())
-                != null)
+            while ((line = reader.ReadLine()) != null)
             {
                 Console.WriteLine(line);
             }
+        }
+        finally
+        {
+            reader.Close();
         }
     }
 
@@ -87,30 +101,43 @@ internal static class FileTasks
         string path, int count)
     {
         Random rnd = new Random();
-        using (BinaryWriter writer =
-            new BinaryWriter(
-                File.Open(path, FileMode.Create)))
+        BinaryWriter writer = new BinaryWriter(
+            File.Open(path, FileMode.Create));
+        int i = 0;
+        
+        try
         {
-            for (int i = 0; i < count; i++)
+            for (i = 0; i < count; i++)
             {
                 writer.Write(rnd.Next(-10, 10));
             }
+        }
+        finally
+        {
+            writer.Close();
         }
     }
 
     private static void FillBinaryManual(
         string path, int count)
     {
-        using (BinaryWriter writer =
-            new BinaryWriter(
-                File.Open(path, FileMode.Create)))
+        BinaryWriter writer = new BinaryWriter(
+            File.Open(path, FileMode.Create));
+        int i = 0;
+        int num = 0;
+        
+        try
         {
-            for (int i = 0; i < count; i++)
+            for (i = 0; i < count; i++)
             {
-                int num = ConsoleHelper.ReadInt(
+                num = ConsoleHelper.ReadInt(
                     $"Число {i + 1}: ");
                 writer.Write(num);
             }
+        }
+        finally
+        {
+            writer.Close();
         }
     }
 
@@ -119,10 +146,9 @@ internal static class FileTasks
         string pathIn = "input4.bin";
         string pathOut = "output4.bin";
 
-        string fullPathIn =
-            Path.GetFullPath(pathIn);
-        string fullPathOut =
-            Path.GetFullPath(pathOut);
+        string fullPathIn = Path.GetFullPath(pathIn);
+        string fullPathOut = Path.GetFullPath(pathOut);
+        
         Console.WriteLine(
             $"\nПолный путь к исходному файлу:");
         Console.WriteLine(fullPathIn);
@@ -151,19 +177,22 @@ internal static class FileTasks
 
         ReadBinaryFile(fullPathIn);
 
-        List<int> uniqueNumbers =
-            new List<int>();
-        using (BinaryReader reader =
-            new BinaryReader(
-                File.Open(pathIn, FileMode.Open)))
+        List<int> uniqueNumbers = new List<int>();
+        BinaryReader reader = new BinaryReader(
+            File.Open(pathIn, FileMode.Open));
+        int num = 0;
+        bool exists = false;
+        int i = 0;
+        
+        try
         {
-            while (reader.BaseStream.Position <
+            while (reader.BaseStream.Position < 
                    reader.BaseStream.Length)
             {
-                int num = reader.ReadInt32();
-                bool exists = false;
-                for (int i = 0;
-                     i < uniqueNumbers.Count; i++)
+                num = reader.ReadInt32();
+                exists = false;
+                
+                for (i = 0; i < uniqueNumbers.Count; i++)
                 {
                     if (uniqueNumbers[i] == num)
                     {
@@ -171,26 +200,35 @@ internal static class FileTasks
                         break;
                     }
                 }
+                
                 if (!exists)
                 {
                     uniqueNumbers.Add(num);
                 }
             }
         }
-
-        using (BinaryWriter writer =
-            new BinaryWriter(
-                File.Open(pathOut, FileMode.Create)))
+        finally
         {
-            for (int i = 0;
-                 i < uniqueNumbers.Count; i++)
+            reader.Close();
+        }
+
+        BinaryWriter writer = new BinaryWriter(
+            File.Open(pathOut, FileMode.Create));
+        
+        try
+        {
+            for (i = 0; i < uniqueNumbers.Count; i++)
             {
                 writer.Write(uniqueNumbers[i]);
             }
         }
+        finally
+        {
+            writer.Close();
+        }
+        
         Console.WriteLine(
             $"Результат записан в {pathOut}");
-
         ReadBinaryFile(fullPathOut);
     }
 
@@ -205,9 +243,12 @@ internal static class FileTasks
         };
 
         List<Toy> toys = new List<Toy>();
-        for (int i = 0; i < count; i++)
+        Toy t;
+        int i = 0;
+        
+        for (i = 0; i < count; i++)
         {
-            Toy t = new Toy();
+            t = new Toy();
             t.Name = names[rnd.Next(names.Length)];
             t.Price = Math.Round(
                 rnd.NextDouble() * 1000, 2);
@@ -216,12 +257,17 @@ internal static class FileTasks
             toys.Add(t);
         }
 
-        XmlSerializer serializer =
+        XmlSerializer serializer = 
             new XmlSerializer(typeof(List<Toy>));
-        using (StreamWriter writer =
-            new StreamWriter(path))
+        StreamWriter writer = new StreamWriter(path);
+        
+        try
         {
             serializer.Serialize(writer, toys);
+        }
+        finally
+        {
+            writer.Close();
         }
     }
 
@@ -229,11 +275,14 @@ internal static class FileTasks
         string path, int count)
     {
         List<Toy> toys = new List<Toy>();
-        for (int i = 0; i < count; i++)
+        Toy t;
+        int i = 0;
+        
+        for (i = 0; i < count; i++)
         {
             Console.WriteLine(
                 $"\nИгрушка {i + 1}:");
-            Toy t = new Toy();
+            t = new Toy();
             t.Name = ConsoleHelper.ReadString(
                 "Название: ");
             t.Price = ConsoleHelper.ReadDouble(
@@ -245,12 +294,17 @@ internal static class FileTasks
             toys.Add(t);
         }
 
-        XmlSerializer serializer =
+        XmlSerializer serializer = 
             new XmlSerializer(typeof(List<Toy>));
-        using (StreamWriter writer =
-            new StreamWriter(path))
+        StreamWriter writer = new StreamWriter(path);
+        
+        try
         {
             serializer.Serialize(writer, toys);
+        }
+        finally
+        {
+            writer.Close();
         }
     }
 
@@ -284,21 +338,30 @@ internal static class FileTasks
         Console.WriteLine(
             $"Файл {path} создан (XML).");
 
-        XmlSerializer serializer =
+        XmlSerializer serializer = 
             new XmlSerializer(typeof(List<Toy>));
         List<Toy> loadedToys;
-        using (StreamReader reader =
-            new StreamReader(path))
+        StreamReader reader = new StreamReader(path);
+        
+        try
         {
             loadedToys = (List<Toy>)
                 serializer.Deserialize(reader);
         }
+        finally
+        {
+            reader.Close();
+        }
 
         Console.WriteLine(
             "\nВсе игрушки из файла:");
-        for (int i = 0; i < loadedToys.Count; i++)
+        
+        int i = 0;
+        Toy t;
+        
+        for (i = 0; i < loadedToys.Count; i++)
         {
-            Toy t = loadedToys[i];
+            t = loadedToys[i];
             Console.WriteLine(
                 $"  {i + 1}. {t.Name} - " +
                 $"{t.Price} руб. " +
@@ -309,9 +372,9 @@ internal static class FileTasks
         bool found = false;
         double maxPrice = -1;
 
-        for (int i = 0; i < loadedToys.Count; i++)
+        for (i = 0; i < loadedToys.Count; i++)
         {
-            Toy t = loadedToys[i];
+            t = loadedToys[i];
             if (t.AgeMin <= 2 && t.AgeMax >= 3)
             {
                 if (!found || t.Price > maxPrice)
@@ -347,29 +410,42 @@ internal static class FileTasks
         string path, int count)
     {
         Random rnd = new Random();
-        using (StreamWriter writer =
-            new StreamWriter(path))
+        StreamWriter writer = new StreamWriter(path);
+        int i = 0;
+        
+        try
         {
-            for (int i = 0; i < count; i++)
+            for (i = 0; i < count; i++)
             {
                 writer.WriteLine(
                     rnd.Next(-100, 100));
             }
+        }
+        finally
+        {
+            writer.Close();
         }
     }
 
     private static void FillText6Manual(
         string path, int count)
     {
-        using (StreamWriter writer =
-            new StreamWriter(path))
+        StreamWriter writer = new StreamWriter(path);
+        int i = 0;
+        int num = 0;
+        
+        try
         {
-            for (int i = 0; i < count; i++)
+            for (i = 0; i < count; i++)
             {
-                int num = ConsoleHelper.ReadInt(
+                num = ConsoleHelper.ReadInt(
                     $"Число {i + 1}: ");
                 writer.WriteLine(num);
             }
+        }
+        finally
+        {
+            writer.Close();
         }
     }
 
@@ -406,14 +482,15 @@ internal static class FileTasks
             "Введите цифру (0-9): ");
         int sum = 0;
 
-        using (StreamReader reader =
-            new StreamReader(path))
+        StreamReader reader = new StreamReader(path);
+        string line = "";
+        int num = 0;
+        
+        try
         {
-            string line = "";
-            while ((line = reader.ReadLine())
-                != null)
+            while ((line = reader.ReadLine()) != null)
             {
-                if (int.TryParse(line, out int num))
+                if (int.TryParse(line, out num))
                 {
                     if (Math.Abs(num) % 10 == digit)
                     {
@@ -422,6 +499,11 @@ internal static class FileTasks
                 }
             }
         }
+        finally
+        {
+            reader.Close();
+        }
+        
         Console.WriteLine(
             $"Сумма элементов, оканчивающихся " +
             $"на {digit}: {sum}");
@@ -431,13 +513,17 @@ internal static class FileTasks
         string path, int rows, int cols)
     {
         Random rnd = new Random();
-        using (StreamWriter writer =
-            new StreamWriter(path))
+        StreamWriter writer = new StreamWriter(path);
+        int i = 0;
+        int j = 0;
+        string line = "";
+        
+        try
         {
-            for (int i = 0; i < rows; i++)
+            for (i = 0; i < rows; i++)
             {
-                string line = "";
-                for (int j = 0; j < cols; j++)
+                line = "";
+                for (j = 0; j < cols; j++)
                 {
                     line += rnd.Next(-50, 50);
                     if (j < cols - 1)
@@ -448,22 +534,31 @@ internal static class FileTasks
                 writer.WriteLine(line);
             }
         }
+        finally
+        {
+            writer.Close();
+        }
     }
 
     private static void FillText7Manual(
         string path, int rows, int cols)
     {
-        using (StreamWriter writer =
-            new StreamWriter(path))
+        StreamWriter writer = new StreamWriter(path);
+        int i = 0;
+        int j = 0;
+        int num = 0;
+        string line = "";
+        
+        try
         {
-            for (int i = 0; i < rows; i++)
+            for (i = 0; i < rows; i++)
             {
-                string line = "";
+                line = "";
                 Console.WriteLine(
                     $"\nСтрока {i + 1}:");
-                for (int j = 0; j < cols; j++)
+                for (j = 0; j < cols; j++)
                 {
-                    int num = ConsoleHelper.ReadInt(
+                    num = ConsoleHelper.ReadInt(
                         $"Число {j + 1}: ");
                     line += num;
                     if (j < cols - 1)
@@ -473,6 +568,10 @@ internal static class FileTasks
                 }
                 writer.WriteLine(line);
             }
+        }
+        finally
+        {
+            writer.Close();
         }
     }
 
@@ -511,18 +610,20 @@ internal static class FileTasks
         int minElement = 0;
         bool isFirst = true;
 
-        using (StreamReader reader =
-            new StreamReader(path))
+        StreamReader reader = new StreamReader(path);
+        string line = "";
+        string[] parts;
+        int i = 0;
+        int num = 0;
+        
+        try
         {
-            string line = "";
-            while ((line = reader.ReadLine())
-                != null)
+            while ((line = reader.ReadLine()) != null)
             {
-                string[] parts = line.Split(' ');
-                for (int i = 0; i < parts.Length; i++)
+                parts = line.Split(' ');
+                for (i = 0; i < parts.Length; i++)
                 {
-                    if (int.TryParse(parts[i],
-                        out int num))
+                    if (int.TryParse(parts[i], out num))
                     {
                         if (isFirst)
                         {
@@ -538,6 +639,11 @@ internal static class FileTasks
                 }
             }
         }
+        finally
+        {
+            reader.Close();
+        }
+        
         Console.WriteLine(
             $"Первый элемент: {firstElement}");
         Console.WriteLine(
@@ -546,11 +652,11 @@ internal static class FileTasks
             $"Разность: {firstElement - minElement}");
     }
 
-    private static void FillText8Random(
-        string path)
+    private static void FillText8Random(string path)
     {
-        using (StreamWriter writer =
-            new StreamWriter(path))
+        StreamWriter writer = new StreamWriter(path);
+        
+        try
         {
             writer.WriteLine("Привет мир");
             writer.WriteLine("Как дела?");
@@ -562,20 +668,31 @@ internal static class FileTasks
             writer.WriteLine(
                 "Another line with no marks");
         }
+        finally
+        {
+            writer.Close();
+        }
     }
 
     private static void FillText8Manual(
         string path, int count)
     {
-        using (StreamWriter writer =
-            new StreamWriter(path))
+        StreamWriter writer = new StreamWriter(path);
+        int i = 0;
+        string line = "";
+        
+        try
         {
-            for (int i = 0; i < count; i++)
+            for (i = 0; i < count; i++)
             {
-                string line = ConsoleHelper.ReadString(
+                line = ConsoleHelper.ReadString(
                     $"Строка {i + 1}: ");
                 writer.WriteLine(line);
             }
+        }
+        finally
+        {
+            writer.Close();
         }
     }
 
@@ -615,20 +732,20 @@ internal static class FileTasks
 
         ReadTextFile(pathIn);
 
-        using (StreamReader reader =
-            new StreamReader(pathIn))
-        using (StreamWriter writer =
-            new StreamWriter(pathOut))
+        StreamReader reader = new StreamReader(pathIn);
+        StreamWriter writer = new StreamWriter(pathOut);
+        string line = "";
+        bool hasPunctuation = false;
+        int i = 0;
+        
+        try
         {
-            string line = "";
-            while ((line = reader.ReadLine())
-                != null)
+            while ((line = reader.ReadLine()) != null)
             {
-                bool hasPunctuation = false;
-                for (int i = 0; i < line.Length; i++)
+                hasPunctuation = false;
+                for (i = 0; i < line.Length; i++)
                 {
-                    if (punctuation.IndexOf(
-                        line[i]) >= 0)
+                    if (punctuation.IndexOf(line[i]) >= 0)
                     {
                         hasPunctuation = true;
                         break;
@@ -640,10 +757,15 @@ internal static class FileTasks
                 }
             }
         }
+        finally
+        {
+            reader.Close();
+            writer.Close();
+        }
+        
         Console.WriteLine(
             $"\nСтроки без знаков препинания " +
             $"записаны в {pathOut}");
-
         ReadTextFile(pathOut);
     }
 }

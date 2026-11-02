@@ -9,6 +9,7 @@ internal class Program
         Console.InputEncoding = Encoding.UTF8;
 
         int choice = 0;
+        
         while (true)
         {
             Console.WriteLine(
@@ -53,7 +54,7 @@ internal class Program
         Console.WriteLine(
             "\nПервый массив " +
             "(ввод по диагоналям):");
-        MatrixClass matrix1 =
+        MatrixClass matrix1 = 
             new MatrixClass(n, m);
         Console.WriteLine("\nПервый массив:");
         Console.WriteLine(matrix1);
@@ -61,14 +62,14 @@ internal class Program
         Console.WriteLine(
             "\nВторой массив " +
             "(убывающие строки):");
-        MatrixClass matrix2 =
+        MatrixClass matrix2 = 
             new MatrixClass(n);
         Console.WriteLine("\nВторой массив:");
         Console.WriteLine(matrix2);
 
         Console.WriteLine(
             "\nТретий массив (спираль):");
-        MatrixClass matrix3 =
+        MatrixClass matrix3 = 
             new MatrixClass(n, "spiral");
         Console.WriteLine("\nТретий массив:");
         Console.WriteLine(matrix3);
@@ -82,7 +83,7 @@ internal class Program
             "Количество депутатов (n): ");
         Console.WriteLine(
             "Вводите 1 для 'Да', 0 для 'Нет'");
-        MatrixClass voting =
+        MatrixClass voting = 
             new MatrixClass(n, 2, true);
         voting.AnalyzeVoting();
     }
@@ -96,13 +97,13 @@ internal class Program
             "Размер матриц (n x n): ");
 
         Console.WriteLine("\nВвод матрицы A:");
-        MatrixClass A =
+        MatrixClass A = 
             new MatrixClass(n, n, true);
         Console.WriteLine("\nВвод матрицы B:");
-        MatrixClass B =
+        MatrixClass B = 
             new MatrixClass(n, n, true);
         Console.WriteLine("\nВвод матрицы C:");
-        MatrixClass C =
+        MatrixClass C = 
             new MatrixClass(n, n, true);
 
         MatrixClass result = ~A + B - 3 * C;

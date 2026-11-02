@@ -5,64 +5,76 @@ internal class MatrixClass
     private int[,] _data;
     private int _rows = 0;
     private int _cols = 0;
-
+    
     public MatrixClass(int n, int m)
     {
         _rows = n;
         _cols = m;
         _data = new int[n, m];
+        
+        int diff = 0;
+        int startI = 0;
+        int endI = 0;
+        int i = 0;
+        int j = 0;
 
-        for (int diff = n - 1;
-             diff >= -(m - 1); diff--)
+        for (diff = n - 1; diff >= -(m - 1); diff--)
         {
-            int startI = Math.Max(0, diff);
-            int endI = Math.Min(
-                n - 1, m - 1 + diff);
-            for (int i = startI;
-                 i <= endI; i++)
+            startI = Math.Max(0, diff);
+            endI = Math.Min(n - 1, m - 1 + diff);
+            
+            for (i = startI; i <= endI; i++)
             {
-                int j = i - diff;
+                j = i - diff;
                 Console.Write($"[{i},{j}]: ");
-                _data[i, j] =
-                    ConsoleHelper.ReadInt("");
+                _data[i, j] = ConsoleHelper.ReadInt("");
             }
         }
     }
-
+    
     public MatrixClass(int n)
     {
         _rows = n;
         _cols = n;
         _data = new int[n, n];
         Random rnd = new Random();
+        
+        int i = 0;
+        int j = 0;
+        int a = 0;
+        int b = 0;
+        int temp = 0;
+        int[] row;
 
-        for (int i = 0; i < n; i++)
+        for (i = 0; i < n; i++)
         {
-            int[] row = new int[n];
-            for (int j = 0; j < n; j++)
+            row = new int[n];
+            
+            for (j = 0; j < n; j++)
             {
                 row[j] = rnd.Next(-100, 100);
             }
-            for (int a = 0; a < n - 1; a++)
+            
+            for (a = 0; a < n - 1; a++)
             {
-                for (int b = 0;
-                     b < n - 1 - a; b++)
+                for (b = 0; b < n - 1 - a; b++)
                 {
                     if (row[b] < row[b + 1])
                     {
-                        int temp = row[b];
+                        temp = row[b];
                         row[b] = row[b + 1];
                         row[b + 1] = temp;
                     }
                 }
             }
-            for (int j = 0; j < n; j++)
+            
+            for (j = 0; j < n; j++)
             {
                 _data[i, j] = row[j];
             }
         }
     }
-
+    
     public MatrixClass(int n, string mode)
     {
         _rows = n;
@@ -74,16 +86,17 @@ internal class MatrixClass
         int left = 0;
         int right = n - 1;
         int num = 1;
+        int i = 0;
 
         while (top <= bottom && left <= right)
         {
-            for (int i = top; i <= bottom; i++)
+            for (i = top; i <= bottom; i++)
             {
                 _data[i, left] = num++;
             }
             left++;
 
-            for (int i = left; i <= right; i++)
+            for (i = left; i <= right; i++)
             {
                 _data[bottom, i] = num++;
             }
@@ -91,7 +104,7 @@ internal class MatrixClass
 
             if (left <= right)
             {
-                for (int i = bottom; i >= top; i--)
+                for (i = bottom; i >= top; i--)
                 {
                     _data[i, right] = num++;
                 }
@@ -100,7 +113,7 @@ internal class MatrixClass
 
             if (top <= bottom)
             {
-                for (int i = right; i >= left; i--)
+                for (i = right; i >= left; i--)
                 {
                     _data[top, i] = num++;
                 }
@@ -109,22 +122,24 @@ internal class MatrixClass
         }
     }
 
-    public MatrixClass(int rows, int cols,
-                       bool manual)
+
+    public MatrixClass(int rows, int cols, bool manual)
     {
         _rows = rows;
         _cols = cols;
         _data = new int[rows, cols];
+        
+        int i = 0;
+        int j = 0;
 
         if (manual)
         {
-            for (int i = 0; i < rows; i++)
+            for (i = 0; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (j = 0; j < cols; j++)
                 {
                     Console.Write($"[{i},{j}]: ");
-                    _data[i, j] =
-                        ConsoleHelper.ReadInt("");
+                    _data[i, j] = ConsoleHelper.ReadInt("");
                 }
             }
         }
@@ -144,16 +159,19 @@ internal class MatrixClass
     {
         int sameCount = 0;
         int changedCount = 0;
+        int i = 0;
+        int v1 = 0;
+        int v2 = 0;
+        string vote1 = "";
+        string vote2 = "";
 
-        for (int i = 0; i < _rows; i++)
+        for (i = 0; i < _rows; i++)
         {
-            int v1 = _data[i, 0];
-            int v2 = _data[i, 1];
+            v1 = _data[i, 0];
+            v2 = _data[i, 1];
 
-            string vote1 = (v1 == 1)
-                ? "Да" : "Нет";
-            string vote2 = (v2 == 1)
-                ? "Да" : "Нет";
+            vote1 = (v1 == 1) ? "Да" : "Нет";
+            vote2 = (v2 == 1) ? "Да" : "Нет";
 
             Console.WriteLine(
                 $"Депутат {i + 1}: " +
@@ -195,22 +213,22 @@ internal class MatrixClass
         }
     }
 
-    public static MatrixClass operator ~(
-        MatrixClass m)
+    public static MatrixClass operator ~(MatrixClass m)
     {
         MatrixClass result = new MatrixClass(
             m._cols, m._rows, false);
         result._rows = m._cols;
         result._cols = m._rows;
-        result._data = new int[
-            m._cols, m._rows];
+        result._data = new int[m._cols, m._rows];
+        
+        int i = 0;
+        int j = 0;
 
-        for (int i = 0; i < m._rows; i++)
+        for (i = 0; i < m._rows; i++)
         {
-            for (int j = 0; j < m._cols; j++)
+            for (j = 0; j < m._cols; j++)
             {
-                result._data[j, i] =
-                    m._data[i, j];
+                result._data[j, i] = m._data[i, j];
             }
         }
         return result;
@@ -221,13 +239,16 @@ internal class MatrixClass
     {
         MatrixClass result = new MatrixClass(
             a._rows, a._cols, false);
-        for (int i = 0; i < a._rows; i++)
+        
+        int i = 0;
+        int j = 0;
+        
+        for (i = 0; i < a._rows; i++)
         {
-            for (int j = 0; j < a._cols; j++)
+            for (j = 0; j < a._cols; j++)
             {
-                result._data[i, j] =
-                    a._data[i, j] +
-                    b._data[i, j];
+                result._data[i, j] = 
+                    a._data[i, j] + b._data[i, j];
             }
         }
         return result;
@@ -238,13 +259,16 @@ internal class MatrixClass
     {
         MatrixClass result = new MatrixClass(
             a._rows, a._cols, false);
-        for (int i = 0; i < a._rows; i++)
+        
+        int i = 0;
+        int j = 0;
+        
+        for (i = 0; i < a._rows; i++)
         {
-            for (int j = 0; j < a._cols; j++)
+            for (j = 0; j < a._cols; j++)
             {
-                result._data[i, j] =
-                    a._data[i, j] -
-                    b._data[i, j];
+                result._data[i, j] = 
+                    a._data[i, j] - b._data[i, j];
             }
         }
         return result;
@@ -255,11 +279,15 @@ internal class MatrixClass
     {
         MatrixClass result = new MatrixClass(
             m._rows, m._cols, false);
-        for (int i = 0; i < m._rows; i++)
+        
+        int i = 0;
+        int j = 0;
+        
+        for (i = 0; i < m._rows; i++)
         {
-            for (int j = 0; j < m._cols; j++)
+            for (j = 0; j < m._cols; j++)
             {
-                result._data[i, j] =
+                result._data[i, j] = 
                     m._data[i, j] * scalar;
             }
         }
@@ -275,9 +303,12 @@ internal class MatrixClass
     public override string ToString()
     {
         string result = "";
-        for (int i = 0; i < _rows; i++)
+        int i = 0;
+        int j = 0;
+        
+        for (i = 0; i < _rows; i++)
         {
-            for (int j = 0; j < _cols; j++)
+            for (j = 0; j < _cols; j++)
             {
                 result += _data[i, j]
                     .ToString().PadLeft(6);

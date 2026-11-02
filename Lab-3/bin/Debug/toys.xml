@@ -2,26 +2,38 @@
 <ArrayOfToy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Toy>
     <Name>Пазл</Name>
-    <Price>951.54</Price>
-    <AgeMin>4</AgeMin>
-    <AgeMax>7</AgeMax>
+    <Price>896.23</Price>
+    <AgeMin>5</AgeMin>
+    <AgeMax>12</AgeMax>
   </Toy>
   <Toy>
-    <Name>Машинка</Name>
-    <Price>844.46</Price>
-    <AgeMin>0</AgeMin>
-    <AgeMax>7</AgeMax>
-  </Toy>
-  <Toy>
-    <Name>Мяч</Name>
-    <Price>518.8</Price>
-    <AgeMin>2</AgeMin>
+    <Name>Кукла</Name>
+    <Price>828.35</Price>
+    <AgeMin>5</AgeMin>
     <AgeMax>9</AgeMax>
   </Toy>
   <Toy>
+    <Name>Конструктор</Name>
+    <Price>497.45</Price>
+    <AgeMin>5</AgeMin>
+    <AgeMax>11</AgeMax>
+  </Toy>
+  <Toy>
     <Name>Пазл</Name>
-    <Price>362.59</Price>
+    <Price>240.39</Price>
+    <AgeMin>5</AgeMin>
+    <AgeMax>9</AgeMax>
+  </Toy>
+  <Toy>
+    <Name>Кукла</Name>
+    <Price>242.02</Price>
+    <AgeMin>5</AgeMin>
+    <AgeMax>8</AgeMax>
+  </Toy>
+  <Toy>
+    <Name>Машинка</Name>
+    <Price>249.7</Price>
     <AgeMin>4</AgeMin>
-    <AgeMax>6</AgeMax>
+    <AgeMax>8</AgeMax>
   </Toy>
 </ArrayOfToy>

@@ -4,69 +4,86 @@ internal static class ConsoleHelper
 {
     private static bool IsEmpty(string s)
     {
+        bool isEmpty = true;
+        int i = 0;
+        
         if (s == null)
         {
             return true;
         }
-        for (int i = 0; i < s.Length; i++)
+        
+        for (i = 0; i < s.Length; i++)
         {
             if (!char.IsWhiteSpace(s[i]))
             {
-                return false;
+                isEmpty = false;
+                break;
             }
         }
-        return true;
+        return isEmpty;
     }
 
     public static int ReadInt(string prompt)
     {
         string input = "";
         int result = 0;
-        while (true)
+        bool isValid = false;
+        
+        while (!isValid)
         {
             Console.Write(prompt);
             input = Console.ReadLine();
-            if (int.TryParse(input, out result))
+            isValid = int.TryParse(input, out result);
+            
+            if (!isValid)
             {
-                return result;
+                Console.WriteLine(
+                    "Некорректный ввод. " +
+                    "Введите целое число.");
             }
-            Console.WriteLine(
-                "Некорректный ввод. " +
-                "Введите целое число.");
         }
+        return result;
     }
 
     public static double ReadDouble(string prompt)
     {
         string input = "";
         double result = 0.0;
-        while (true)
+        bool isValid = false;
+        
+        while (!isValid)
         {
             Console.Write(prompt);
             input = Console.ReadLine();
-            if (double.TryParse(input, out result))
+            isValid = double.TryParse(input, out result);
+            
+            if (!isValid)
             {
-                return result;
+                Console.WriteLine(
+                    "Некорректный ввод. " +
+                    "Введите вещественное число.");
             }
-            Console.WriteLine(
-                "Некорректный ввод. " +
-                "Введите вещественное число.");
         }
+        return result;
     }
 
     public static string ReadString(string prompt)
     {
         string result = "";
-        while (true)
+        bool isValid = false;
+        
+        while (!isValid)
         {
             Console.Write(prompt);
             result = Console.ReadLine();
-            if (!IsEmpty(result))
+            isValid = !IsEmpty(result);
+            
+            if (!isValid)
             {
-                return result;
+                Console.WriteLine(
+                    "Строка не может быть пустой.");
             }
-            Console.WriteLine(
-                "Строка не может быть пустой.");
         }
+        return result;
     }
 }
